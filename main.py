@@ -1,3 +1,4 @@
+import random
 ############### Blackjack Project #####################
 
 #Difficulty Normal 😎: Use all Hints below to complete the project.
@@ -33,11 +34,24 @@
 
 #Hint 4: Create a deal_card() function that uses the List below to *return* a random card.
 #11 is the Ace.
-#cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+def deal_card():
+  card = random.choice(cards)
+  return card
+
+
 
 #Hint 5: Deal the user and computer 2 cards each using deal_card() and append().
-#user_cards = []
-#computer_cards = []
+
+user_cards = []
+computer_cards = []
+
+for _ in range(2):
+  deal_card()
+
+
+
 
 #Hint 6: Create a function called calculate_score() that takes a List of cards as input 
 #and returns the score. 
