@@ -51,7 +51,7 @@ for _ in range(2):
   user_cards.append(deal_card())
   computer_cards.append(deal_card())
 
-print(user_cards, computer_cards)
+
 
 
 
@@ -59,6 +59,11 @@ print(user_cards, computer_cards)
 #Hint 6: Create a function called calculate_score() that takes a List of cards as input 
 #and returns the score. 
 #Look up the sum() function to help you do this.
+def calculate_score(deck):
+  return sum(deck)
+
+print(calculate_score(user_cards), calculate_score(computer_cards))
+
 
 #Hint 7: Inside calculate_score() check for a blackjack (a hand with only 2 cards: ace + 10) and return 0 instead of the actual score. 0 will represent a blackjack in our game.
 
