@@ -35,7 +35,7 @@ import random
 #and returns the score. 
 #Look up the sum() function to help you do this.
 #Hint 7: Inside calculate_score() check for a blackjack (a hand with only 2 cards: ace + 10) and return 0 instead of the actual score. 0 will represent a blackjack in our game.
-
+#Hint 8: Inside calculate_score() check for an 11 (ace). If the score is already over 21, remove the 11 and replace it with a 1. You might need to look up append() and remove().
 
 def deal_card():
   """Acts as dealer, dealing cards to the players"""
@@ -51,19 +51,29 @@ for _ in range(2):
   user_cards.append(deal_card())
   computer_cards.append(deal_card())
 
-def calculate_score(deck):
-  amt = sum(deck)
-  if deck == [11, 10]:
-    #Checking for a bl
+def calculate_score(hand):
+  if sum(hand) == 21 and len(hand) == 2:
     return 0
-  for _ in range(len(deck)):
-    if amt == 21:
-      deck.remove(11)
-      deck.append(1)
-  return amt
+  if 11 in hand and sum(hand) > 21:
+    hand.remove(11)
+    hand.append(1)
+  return sum(hand)
 
-print(calculate_score(user_cards), calculate_score(computer_cards))
-#Hint 8: Inside calculate_score() check for an 11 (ace). If the score is already over 21, remove the 11 and replace it with a 1. You might need to look up append() and remove().
+# def calculate_score(deck):
+#   amt = sum(deck)
+#   if deck == [11, 10]:
+#     #Checking for a bl
+#     return 0
+#   for _ in range(len(deck)):
+#     if amt == 21:
+#       deck.remove(11)
+#       deck.append(1)
+#   return amt
+
+print('User Score: ' + str(calculate_score(user_cards)))
+print('Comp Score: ' + str(calculate_score(computer_cards)))
+
+
 
 
 
