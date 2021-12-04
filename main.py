@@ -1,54 +1,72 @@
 import random
 
-
-############### Our Blackjack House Rules #####################
-
-## The deck is unlimited in size. 
-## There are no jokers. 
-## The Jack/Queen/King all count as 10.
-## The the Ace can count as 11 or 1.
-## Use the following list as the deck of cards:
-## cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
-## The cards in the list have equal probability of being drawn.
-## Cards are not removed from the deck as they are drawn.
-## The computer is the dealer.
 user_cards = []
-computer_cards = []
+dealer_cards = []
+
 blackjack = 0
+
 is_game_over = False
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
 def deal_card():
   """Acts as dealer, dealing cards to the players"""
-  cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
   card = random.choice(cards)
   return card
 
 def calculate_score(hand):
   if sum(hand) == 21 and len(hand) == 2:
     return 0
-  if 11 in hand and sum(hand) > 21:
-    hand.remove(11)
-    hand.append(1)
+  if sum(hand) > 21 and 11 in hand:
+    cards.remove(11)
+    cards.append(1)
   return sum(hand)
 
+def compare(usr_total, dealer_total):
+  if usr_total == dealer_total:
+    print(f"Player: {usr_total}\nDealer:{dealer_total}\nIts a draw!")
+  elif dealer_total == blackjack or usr_total >21 or dealer_total > usr_total:
+    print(f"Player: {usr_total}\nDealer:{dealer_total}\nYou Lose :-(")
+  elif usr_total == blackjack or dealer_total > 21 or usr_total > dealer_total:
+    print(f"Player: {usr_total}\nDealer:{dealer_total}\nYou Win!")
 
+
+#Cards get dealt
 for _ in range(2):
   user_cards.append(deal_card())
-  computer_cards.append(deal_card())
+  dealer_cards.append(deal_card())
 
+#total of each hand
 usr_total = calculate_score(user_cards)
-comp_total = calculate_score(computer_cards)
+dealer_total = calculate_score(dealer_cards)
 
+
+#The game interface
 print(f"Your current hand: {user_cards}. Your current total: {usr_total}")
-print(f"Computer first card: {computer_cards[0]}.")
+print(f"dealer first card: {dealer_cards[0]}.")
+
+while not is_game_over:
+  if dealer_total == 21 or usr_total == 21 or usr_total > 21:
+    print('Game Over!')
+    compare(usr_total, dealer_total)
+    is_game_over = True
+  else:
+    increase_hand = input("Would you like to draw another card? Type 'yes' or 'no'.\n").lower()
+    if increase_hand == 'yes':
+      user_cards.append(deal_card())
+      usr_total = calculate_score(user_cards)
+      print(f"Your current hand: {user_cards}. Your current total: {usr_total}")
+    elif increase_hand == 'no':
+      while dealer_total < 17:
+        dealer_cards.append(deal_card())
+        dealer_total = calculate_score(dealer_cards)
+      is_game_over = True
+      compare(usr_total, dealer_total)
 
 
-if comp_total == blackjack or usr_total == blackjack or usr_total > 21:
-  print('Game Over!')
-  is_game_over = True
 
 
-
+  
 
 #Hint 10: If the game has not ended, ask the user if they want to draw another card. If yes, then use the deal_card() function to add another card to the user_cards List. If no, then the game has ended.
 
@@ -60,13 +78,3 @@ if comp_total == blackjack or usr_total == blackjack or usr_total > 21:
 
 #Hint 14: Ask the user if they want to restart the game. If they answer yes, clear the console and start a new game of blackjack and show the logo from art.py.
 
-# def calculate_score(deck):
-#   amt = sum(deck)
-#   if deck == [11, 10]:
-#     #Checking for a bl
-#     return 0
-#   for _ in range(len(deck)):
-#     if amt == 21:
-#       deck.remove(11)
-#       deck.append(1)
-#   return amt
